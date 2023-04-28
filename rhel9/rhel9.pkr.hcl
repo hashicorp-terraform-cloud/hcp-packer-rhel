@@ -6,15 +6,12 @@ source "azure-arm" "rhel9" {
 
   ssh_username = "${var.ssh_username}"
 
-  // managed_image_resource_group_name = "benh-packer-builds"
-  // managed_image_name                = "packer-rhel9-${local.timestamp}"
-
   shared_image_gallery_destination {
     subscription         = "${var.subscription_id}"
     resource_group       = "benh-packer-builds"
     gallery_name         = "benh_packer_image_gallery"
-    image_name           = "packer-rhel9-${local.timestamp}"
-    image_version        = "${local.timestamp}"
+    image_name           = "packer-rhel91"
+    image_version        = "9.1.0"
     replication_regions  = ["uksouth"]
     storage_account_type = "Standard_LRS"
   }
@@ -42,7 +39,7 @@ build {
 Some nice description about the image being published to HCP Packer Registry.
     EOT
     bucket_labels = {
-      "os"     = "Red Hat Enterprise Linux",
+      "os"     = "Red Hat Enterprise Linux"
       "vendor" = "Red Hat"
       "owner"  = "ben.holmes@hashicorp.com"
     }

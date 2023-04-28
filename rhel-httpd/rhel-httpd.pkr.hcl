@@ -17,21 +17,35 @@ source "azure-arm" "rhel-httpd" {
 
   ssh_username = "${var.ssh_username}"
 
-  os_type                                  = data.hcp-packer-image.azure-rhel9.labels["os_type"]
-  custom_managed_image_name                = data.hcp-packer-image.azure-rhel9.labels["managed_image_name"]
-  custom_managed_image_resource_group_name = data.hcp-packer-image.azure-rhel9.labels["managed_image_resourcegroup_name"]
+  os_type = "Linux"
 
-  managed_image_resource_group_name = "benh-packer-builds"
-  managed_image_name                = "packer-rhel9-httpd-${local.timestamp}"
+  shared_image_gallery {
+    subscription   = "${var.subscription_id}"
+    resource_group = data.hcp-packer-image.azure-rhel9.labels["sig_resource_group"]
+    gallery_name   = data.hcp-packer-image.azure-rhel9.labels["sig_name"]
+    image_name     = data.hcp-packer-image.azure-rhel9.labels["sig_image_name"]
+    image_version  = data.hcp-packer-image.azure-rhel9.labels["sig_image_version"]
+  }
 
-  location = "uksouth"
-  vm_size  = "Standard_D2as_v4"
+  shared_image_gallery_destination {
+    subscription         = "${var.subscription_id}"
+    resource_group       = data.hcp-packer-image.azure-rhel9.labels["sig_resource_group"]
+    gallery_name         = data.hcp-packer-image.azure-rhel9.labels["sig_name"]
+    image_name           = "${data.hcp-packer-image.azure-rhel9.labels["sig_image_name"]}-httpd"
+    image_version        = data.hcp-packer-image.azure-rhel9.labels["sig_image_version"]
+    replication_regions  = ["uksouth"]
+    storage_account_type = "Standard_LRS"
+  }
 
   plan_info {
     plan_name      = "rhel-lvm91-gen2"
     plan_product   = "rhel-byos"
     plan_publisher = "redhat"
   }
+
+  location = "uksouth"
+  vm_size  = "Standard_D2as_v4"
+
 }
 
 build {
@@ -39,12 +53,12 @@ build {
   hcp_packer_registry {
     bucket_name = "rhel-httpd"
     description = <<EOT
-Some nice description about the image being published to HCP Packer Registry.
+A child image containing an application
     EOT
     bucket_labels = {
-      "os"     = "Red Hat Enterprise Linux",
-      "vendor" = "Red Hat"
-      "owner"  = "ben.holmes@hashicorp.com"
+      "os"      = "Red Hat Enterprise Linux"
+      "vendor"  = "Red Hat"
+      "owner"   = "ben.holmes@hashicorp.com"
       "product" = "httpd"
     }
   }
