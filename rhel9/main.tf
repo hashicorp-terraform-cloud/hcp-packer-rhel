@@ -1,3 +1,7 @@
+variable atlas_configuration_version_github_commit_sha {
+  type = "string"
+}
+
 resource "null_resource" "packer" {
   triggers = {
     sha = var.atlas_configuration_version_github_commit_sha
