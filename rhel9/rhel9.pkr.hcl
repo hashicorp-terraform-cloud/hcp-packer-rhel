@@ -11,7 +11,7 @@ source "azure-arm" "rhel9" {
     resource_group       = "benh-packer-builds"
     gallery_name         = "benh_packer_image_gallery"
     image_name           = "packer-rhel91"
-    image_version        = "9.1.0"
+    image_version        = "9.1.1"
     replication_regions  = ["uksouth"]
     storage_account_type = "Standard_LRS"
   }
