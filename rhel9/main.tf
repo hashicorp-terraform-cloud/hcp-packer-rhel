@@ -1,10 +1,10 @@
-variable atlas_configuration_version_github_commit_sha {
+variable ATLAS_CONFIGURATION_VERSION_GITHUB_COMMIT_SHA {
   type = string
 }
 
 resource "null_resource" "packer" {
   triggers = {
-    sha = var.atlas_configuration_version_github_commit_sha
+    sha = var.ATLAS_CONFIGURATION_VERSION_GITHUB_COMMIT_SHA
   }
 
   provisioner "local-exec" {
