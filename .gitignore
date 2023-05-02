@@ -6,6 +6,7 @@
 # .tfstate files
 *.tfstate
 *.tfstate.*
+*.bak
 
 # Crash log files
 crash.log
