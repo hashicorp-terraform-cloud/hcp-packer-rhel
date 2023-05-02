@@ -1,5 +1,5 @@
 variable atlas_configuration_version_github_commit_sha {
-  type = "string"
+  type = string
 }
 
 resource "null_resource" "packer" {
