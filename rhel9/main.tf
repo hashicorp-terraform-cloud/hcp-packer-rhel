@@ -1,6 +1,6 @@
 resource "null_resource" "packer" {
   triggers = {
-    sha = "${env("TF_VAR_ATLAS_CONFIGURATION_VERSION_GITHUB_COMMIT_SHA")}"
+    sha = var.atlas_configuration_version_github_commit_sha
   }
 
   provisioner "local-exec" {
