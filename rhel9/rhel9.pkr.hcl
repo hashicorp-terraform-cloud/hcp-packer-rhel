@@ -1,13 +1,13 @@
 source "azure-arm" "rhel9" {
-  client_id       = "${var.client_id}"
-  client_secret   = "${var.client_secret}"
-  subscription_id = "${var.subscription_id}"
-  tenant_id       = "${var.tenant_id}"
+  client_id       = "${env("ARM_CLIENT_ID")}"
+  client_secret   = "${env("ARM_CLIENT_SECRET")}"
+  subscription_id = "${env("ARM_SUBSCRIPTION_ID")}"
+  tenant_id       = "${env("ARM_TENANT_ID")}"
 
   ssh_username = "${var.ssh_username}"
 
   shared_image_gallery_destination {
-    subscription         = "${var.subscription_id}"
+    subscription         = "${env("ARM_SUBSCRIPTION_ID")}"
     resource_group       = "benh-packer-builds"
     gallery_name         = "benh_packer_image_gallery"
     image_name           = "packer-rhel91"
